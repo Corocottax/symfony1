@@ -47,9 +47,11 @@ class ExplicacionController extends AbstractController
 
         return $this->renderForm('Explicacion/addAlumnos.html.twig', ["alumnoForm" => $form]);
     }
-    #[Route('/ropa', name: 'ropa')]
-    public function ropa(): Response
+    #[Route('/getalumno/{id}', name: 'getalumno')]
+    public function getalumno(EntityManagerInterface $em, $id): Response
     {
-        return $this->render('Explicacion/ropa.html.twig');
+        $respositorio = $em->getRepository(Alumno::class);
+        $alumno = $respositorio->find($id);
+        return $this->render('Explicacion/getAlumno.html.twig', ["alumno" => $alumno]);
     }
 }

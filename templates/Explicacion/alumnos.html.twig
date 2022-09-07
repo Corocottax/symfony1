@@ -7,7 +7,8 @@
         <p>{{alumno.id}}</p>
         <p>{{alumno.name}}</p>
         <p>{{alumno.age}}</p>
-        <img src="{{alumno.img}}"/>
+        <img style="width: 100px" src="{{alumno.img}}" alt="imagen"/>
+        <a href="{{path("getalumno", {"id": alumno.id})}}">Más información sobre el alumno</a>
 
     {% endfor %}
 {% endblock %}
