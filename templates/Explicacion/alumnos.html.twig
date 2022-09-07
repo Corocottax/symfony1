@@ -1,0 +1,13 @@
+{% extends 'Explicacion/explicacion.html.twig' %}
+{% block body %}
+    <h1>Esto es la sección de alumnos</h1>
+    {# <p>si estás leyendo esto se debería haber creado en la base de datos un nuevo alumno llamado Boris</p> #}
+    {% for alumno in alumnos %}
+
+        <p>{{alumno.id}}</p>
+        <p>{{alumno.name}}</p>
+        <p>{{alumno.age}}</p>
+        <img src="{{alumno.img}}"/>
+
+    {% endfor %}
+{% endblock %}

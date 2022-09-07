@@ -2,7 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Alumno;
+use App\Form\AddAlumnosType;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -13,16 +18,34 @@ class ExplicacionController extends AbstractController
     {
         return $this->render('Explicacion/explicacion.html.twig');
     }
-    #[Route('/juegos', name: 'juegos')]
-    public function juegos(): Response
+    #[Route('/alumnos', name: 'alumnos')]
+    public function alumnos(EntityManagerInterface $em): Response
     {
-        return $this->render('Explicacion/juegos.html.twig');
+        /* $alumno = new Alumno();
+        $alumno->setName("Boris");
+        $alumno->setAge(31);
+        $alumno->setCurso("FULL STACK DEVELOPER");
+        $em->persist($alumno);
+        $em->flush(); */
+        $respositorio = $em->getRepository(Alumno::class);
+        $alumnos = $respositorio->findAll();
+        return $this->render('Explicacion/alumnos.html.twig', ["alumnos" => $alumnos]);
     }
-    #[Route('/pokemon', name: 'pokemon')]
-    public function pokemon(): Response
+    #[Route('/addalumnos', name: 'addalumnos')]
+    public function addalumnos(EntityManagerInterface $em, Request $request): Response
     {
-        $pokemon = ["nombre" => "Pikachu", "tipo" => "Eléctrico"];
-        return $this->render('Explicacion/pokemon.html.twig', ["pokemon" => $pokemon]);
+        $form = $this->createForm(AddAlumnosType::class);
+        $form -> handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $alumno = $form->getData();
+            $em->persist($alumno);
+            $em->flush();
+
+            return $this->redirectToRoute("alumnos");
+        }
+
+        return $this->renderForm('Explicacion/addAlumnos.html.twig', ["alumnoForm" => $form]);
     }
     #[Route('/ropa', name: 'ropa')]
     public function ropa(): Response

@@ -1,0 +1,7 @@
+{% extends 'Explicacion/explicacion.html.twig' %}
+{% block body %}
+    {{ form_start(alumnoForm) }}
+        {{ form_widget(alumnoForm) }}
+        <button type="submit">Añadir nuevo alumno</button>
+    {{ form_end(alumnoForm) }}
+{% endblock %}
